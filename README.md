@@ -13,7 +13,6 @@ If you don't use a breakout board (3 pin version) but the 4 pin version of the s
 
 Download Blynk App, register and create a project to receive an Auth Key.
 
-
 In your project add a Value Display Widget called "temperature" connected to Virtual Pin 6, set Frequency to Push and another  Value Display Widget called "humidity" connected to Virtual Pin 5, set Frequency to Push, too. Alternativly use a SuperChart with the same Virtual Pins to combine both values including historical data.
 
 ### Compile Source
