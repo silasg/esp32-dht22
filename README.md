@@ -24,8 +24,9 @@ In Arduino Library Manager install those libs:
 3. Blynk
 
 Create file secrets.h with the following content
-```#define WIFI_SSID "yourssid"
-#define WIFI_PASSWORD "secret123"
-#define BLYNK_AUTH_TOKEN "received by mail"```
+
+  #define WIFI_SSID "yourssid"
+  #define WIFI_PASSWORD "secret123"
+  #define BLYNK_AUTH_TOKEN "received by mail"
 
 Upload sketch and open the project in your Blynk App.
