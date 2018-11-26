@@ -23,7 +23,7 @@ In Arduino Library Manager install those libs:
 2. DHT_sensor_library_for_ESPx
 3. Blynk
 
-Create file secrets.h with the following content
+Create file secrets.h with the following content:
 
     #define WIFI_SSID "yourssid"
     #define WIFI_PASSWORD "secret123"
