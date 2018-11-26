@@ -1,6 +1,6 @@
 # esp32-dht22
 
-Read humidity and temperature from a DHT22 sensor and upload values to Blynk.cc cloud.
+Read humidity and temperature from a DHT22 sensor connected to an ESP32 microcontroller and upload values to Blynk.cc cloud.
 
 ## How to start
 
