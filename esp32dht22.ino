@@ -12,20 +12,46 @@ char auth[] = BLYNK_AUTH_TOKEN; // defined in .gitignore'd secrets.h
 char ssid[] = WIFI_SSID; // defined in .gitignore'd secrets.h
 char pass[] = WIFI_PASSWORD; // Set password to "" for open networks. defined in .gitignore'd secrets.h 
 
+ulong lastConnected = 0;
+
 Neotimer timer;
 
 const int DHTPin = 25;
 DHTesp dht;
 
+void connectBlynk()
+{
+    Blynk.connectWiFi(ssid, pass);
+    if (WiFi.status() == WL_CONNECTED)
+    {
+        Blynk.config(auth);
+        Blynk.connect();
+    }
+    lastConnected = millis();
+}
+
 void setup()
 {
     Serial.begin(115200);
-    Blynk.begin(auth, ssid, pass);
+    connectBlynk();
     dht.setup(DHTPin, DHTesp::DHT22);
     timer.set(3000);
 }
 
-void sendSensorData() {
+void runBlynkOrReconnectWifi()
+{
+    if (Blynk.connected())
+    {
+       Blynk.run();
+       lastConnected = millis();
+    } 
+    else 
+        if (millis() > (lastConnected+60000)) // last connected at 1 minute ago
+            connectBlynk();
+}
+
+void sendSensorData()
+{
     TempAndHumidity tah = dht.getTempAndHumidity();
     Blynk.virtualWrite(V5, tah.humidity);
     Blynk.virtualWrite(V6, tah.temperature);
@@ -33,7 +59,7 @@ void sendSensorData() {
 
 void loop()
 {
-    Blynk.run();
+    runBlynkOrReconnectWifi();
     if (timer.repeat())
         sendSensorData();
 }
