@@ -23,14 +23,13 @@ DHTesp dht;
 
 void connectBlynk()
 {
-    digitalWrite(LED, LOW);
     Blynk.connectWiFi(ssid, pass);
     if (WiFi.status() == WL_CONNECTED)
     {
         Blynk.config(auth);
         Blynk.connect();
     }
-    lastConnected = millis();
+    setLastConnectedNow();
 }
 
 void setup()
@@ -42,17 +41,29 @@ void setup()
     timer.set(3000);
 }
 
-void runBlynkOrReconnectWifi()
+void runBlynkOrRestart()
 {
     if (Blynk.connected())
     {
        Blynk.run();
-       lastConnected = millis();
+       setLastConnectedNow();
        digitalWrite(LED, HIGH);
     } 
-    else 
-        if (millis() > (lastConnected+60000)) // last connected at 1 minute ago
-            connectBlynk();
+    else {
+        digitalWrite(LED, LOW);
+        if (lastConnectedMoreThanOneMinuteAgo()) {
+            Serial.println("Rebooting ...");
+            ESP.restart(); // reboot, since reconnect doesn't work sometimes...
+        }
+    }
+}
+
+void setLastConnectedNow() {
+    lastConnected = millis();
+}
+
+bool lastConnectedMoreThanOneMinuteAgo() {
+    return millis() > (lastConnected+60000);
 }
 
 void sendSensorData()
@@ -64,7 +75,7 @@ void sendSensorData()
 
 void loop()
 {
-    runBlynkOrReconnectWifi();
+    runBlynkOrRestart();
     if (timer.repeat())
         sendSensorData();
 }
