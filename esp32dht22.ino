@@ -70,20 +70,24 @@ void runBlynkOrRestart()
        setLastConnectedNow();
        digitalWrite(LED, HIGH);
     } 
-    else {
+    else
+    {
         digitalWrite(LED, LOW);
-        if (lastConnectedMoreThanOneMinuteAgo()) {
+        if (lastConnectedMoreThanOneMinuteAgo())
+        {
             Serial.println("Rebooting ...");
             ESP.restart(); // reboot, since reconnect doesn't work sometimes...
         }
     }
 }
 
-void setLastConnectedNow() {
+void setLastConnectedNow()
+{
     lastConnected = millis();
 }
 
-bool lastConnectedMoreThanOneMinuteAgo() {
+bool lastConnectedMoreThanOneMinuteAgo()
+{
     return millis() > (lastConnected+60000);
 }
 
