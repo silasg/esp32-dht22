@@ -23,19 +23,6 @@ DHTesp dht;
 
 void resetWifi()
 {
-    //DO NOT TOUCH
-    //  This is here to force the ESP32 to reset the WiFi and initialise correctly.
-    // Serial.print("WIFI status = ");
-    // Serial.println(WiFi.getMode());
-    // WiFi.disconnect(true);
-    // delay(1000);
-    // WiFi.mode(WIFI_STA);
-    // delay(1000);
-    // Serial.print("WIFI status = ");
-    // Serial.println(WiFi.getMode());
-    // End silly stuff !!!
-
-
     WiFi.begin(ssid, pass);
     delay(1000);
     WiFi.disconnect();
@@ -48,7 +35,6 @@ void connectBlynk()
 {
     resetWifi();
     setLastConnectedNow();
-    //Blynk.connectWiFi(ssid, pass);
     Blynk.config(auth);
     Blynk.connect();
 }
